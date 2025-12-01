@@ -3,12 +3,9 @@
 - Node
 - npm
 - VSC extensions
-  - prettier
-  - vscode-styled-components
+  - Prettier
   - Code Spell Checker
 
-## In this project:
+## Develop
 
-- webpack
-- typescript
-- react
+- `npm i`
