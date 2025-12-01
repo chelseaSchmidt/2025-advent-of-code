@@ -63,6 +63,6 @@ function adjustLeft(position: Position): Position {
   return position < 0 ? adjustLeft(position + 100) : position;
 }
 
-function isZero(num: Number): num is 0 {
-  return !num;
+function isZero(num: number): num is 0 {
+  return !isNaN(num) && !num;
 }
