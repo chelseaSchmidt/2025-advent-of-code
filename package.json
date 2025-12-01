@@ -2,10 +2,9 @@
   "name": "2025-advent-of-code",
   "version": "1.0.0",
   "description": "",
-  "main": "public/index.html",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "webpack serve --port 3000",
-    "build": "webpack"
+    "log-solutions": "ts-node src"
   },
   "keywords": [],
   "author": "Chelsea Schmidt",

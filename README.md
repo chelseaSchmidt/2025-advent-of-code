@@ -9,3 +9,4 @@
 ## Develop
 
 - `npm i`
+- `npm run log-solutions`

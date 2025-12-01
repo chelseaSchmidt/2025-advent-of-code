@@ -1,9 +1,6 @@
 {
   "include": [
-    "lib/**/*",
     "src/**/*",
-    "tests/src/**/*",
-    "tests/__mocks__/*.ts",
     "*.ts"
   ],
   "compilerOptions": {
@@ -12,14 +9,6 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "baseUrl": "./",
-    "paths": {
-      "lib/*": ["./lib/*"],
-      "src/*": ["./src/*"],
-      "components/*": ["./src/components/*"],
-      "styles/*": ["./src/styles/*"],
-      "hooks/*": ["./src/hooks/*"],
-      "assets/*": ["./src/assets/*"]
-    },
     "allowJs": false,
     "declaration": true,
     "sourceMap": true,
