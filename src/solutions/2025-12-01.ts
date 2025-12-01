@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 
 type NonEmpty<T> = [T, ...T[]];
 type Direction = 'R' | 'L';
@@ -9,18 +8,19 @@ type Password = number;
 
 const START_POSITION = 50;
 
-export function part1Day01(): void {
-  console.log(
-    solvePart1(
-      parse(path.resolve(__dirname, '..', 'inputs', '2025-12-01.txt')),
-    ),
-  );
+export function day01(inputPath: string): [Password, Password] {
+  const input = parse(inputPath);
+  return [solvePart1(input), solvePart2(input)];
 }
 
 function solvePart1(rotations: Rotation[]): Password {
   return rotations
     .reduce<NonEmpty<Position>>(rotateDial, [START_POSITION])
     .filter(isZero).length;
+}
+
+function solvePart2(rotations: Rotation[]): Password {
+  return 0; // TODO
 }
 
 function parse(filePath: string): Rotation[] {
