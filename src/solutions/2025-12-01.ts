@@ -13,16 +13,6 @@ export function day01(inputPath: string): [Password, Password] {
   return [solvePart1(input), solvePart2(input)];
 }
 
-function solvePart1(rotations: Rotation[]): Password {
-  return rotations
-    .reduce<NonEmpty<Position>>(rotateDial, [START_POSITION])
-    .filter(isZero).length;
-}
-
-function solvePart2(rotations: Rotation[]): Password {
-  return 0; // TODO
-}
-
 function parse(filePath: string): Rotation[] {
   return fs
     .readFileSync(filePath, 'utf-8')
@@ -35,6 +25,16 @@ function parse(filePath: string): Rotation[] {
         throw new Error('Invalid input');
       }
     });
+}
+
+function solvePart1(rotations: Rotation[]): Password {
+  return rotations
+    .reduce<NonEmpty<Position>>(rotateDial, [START_POSITION])
+    .filter(isZero).length;
+}
+
+function solvePart2(rotations: Rotation[]): Password {
+  return 0; // TODO
 }
 
 function rotateDial(
