@@ -4,7 +4,9 @@ import { day01 } from './solutions/2025-12-01';
 main();
 
 export default function main() {
-  console.log(day01(dayToInput(1)));
+  console.log(
+    day01(dayToInput(1)), // [1018, 5815]
+  );
 }
 
 function dayToInput(day: number): string {

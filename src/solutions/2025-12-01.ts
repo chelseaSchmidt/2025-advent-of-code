@@ -4,7 +4,12 @@ type NonEmpty<T> = [T, ...T[]];
 type Direction = 'R' | 'L';
 type Rotation = [Direction, number];
 type Position = number;
+type OriginHits = number;
 type Password = number;
+type RotationSummary = {
+  positions: NonEmpty<Position>;
+  originHits: OriginHits;
+};
 
 const START_POSITION = 50;
 
@@ -29,21 +34,49 @@ function parse(filePath: string): Rotation[] {
 
 function solvePart1(rotations: Rotation[]): Password {
   return rotations
-    .reduce<NonEmpty<Position>>(rotateDial, [START_POSITION])
-    .filter(isZero).length;
+    .reduce<RotationSummary>(rotateDial, {
+      positions: [START_POSITION],
+      originHits: 0,
+    })
+    .positions.filter(isZero).length;
 }
 
 function solvePart2(rotations: Rotation[]): Password {
-  return 0; // TODO
+  return rotations.reduce<RotationSummary>(rotateDial, {
+    positions: [START_POSITION],
+    originHits: 0,
+  }).originHits;
 }
 
 function rotateDial(
-  accum: NonEmpty<Position>,
+  accum: RotationSummary,
   rotation: Rotation,
-): NonEmpty<Position> {
-  const [start] = accum;
+): RotationSummary {
+  const [start] = accum.positions;
   const [direction, distance] = rotation;
-  return [nextPosition(start, distance, direction), ...accum];
+
+  return {
+    positions: [nextPosition(start, distance, direction), ...accum.positions],
+    originHits: countOriginHits(start, distance, direction, accum.originHits),
+  };
+}
+
+function countOriginHits(
+  start: Position,
+  distance: number,
+  direction: Direction,
+  prev: OriginHits,
+): OriginHits {
+  let count = prev;
+
+  const clicksToZero = direction === 'R' ? 100 - start : start;
+
+  if (distance >= clicksToZero) {
+    count += clicksToZero > 0 ? 1 : 0; // consume distance to origin
+    count += Math.floor((distance - clicksToZero) / 100); // additional hits after starting from origin
+  }
+
+  return count;
 }
 
 function nextPosition(
@@ -51,8 +84,8 @@ function nextPosition(
   distance: number,
   direction: Direction,
 ): Position {
-  const clickCount = start + (direction === 'R' ? distance : -distance);
-  return direction === 'R' ? adjustRight(clickCount) : adjustLeft(clickCount);
+  const rawPosition = start + (direction === 'R' ? distance : -distance);
+  return direction === 'R' ? adjustRight(rawPosition) : adjustLeft(rawPosition);
 }
 
 function adjustRight(position: Position): Position {
