@@ -47,11 +47,12 @@ function detectRepeats(ids: number[], { max = Infinity } = {}): number[] {
         .map(toChars)
         .filter((digits) =>
           findIndices(digits, digits[0], 1).some((i) => {
-            const seq = joinChars(digits.slice(0, i));
-            const chunks = chunk(digits.slice(seq.length), seq.length);
+            const firstSeq = joinChars(digits.slice(0, i));
+            const theRest = digits.slice(firstSeq.length);
+            const subSequences = chunk(theRest, firstSeq.length).map(joinChars);
             return (
-              chunks.length <= max &&
-              chunks.every((ch) => joinChars(ch) === seq)
+              subSequences.length <= max &&
+              subSequences.every((subSeq) => subSeq === firstSeq)
             );
           }),
         )
