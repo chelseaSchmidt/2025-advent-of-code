@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { findIndices, sum } from './lib';
 
 type Sum = number;
 type Range = [number, number];
@@ -26,10 +27,10 @@ function parse(filePath: string): Range[] {
 }
 
 function solvePart1(ranges: Range[]): Sum {
-  return sum(ranges.map(sequence).flatMap(detectRepeats));
+  return sum(ranges.map(expandRange).flatMap(detectSingleRepeatedSequence));
 }
 
-function sequence([start, end]: Range): number[] {
+function expandRange([start, end]: Range): number[] {
   const nums = [start];
   let last = nums.at(-1);
 
@@ -42,27 +43,18 @@ function sequence([start, end]: Range): number[] {
   return nums;
 }
 
-function detectRepeats(): number[] {
-  return []; // TODO
+function detectSingleRepeatedSequence(ids: number[]): number[] {
+  return [
+    ...new Set(
+      ids
+        .map(String)
+        .map((id) => id.split(''))
+        .filter((digits) =>
+          findIndices(digits, digits[0], 1).some(
+            (i) => digits.slice(0, i).join('') === digits.slice(i).join(''),
+          ),
+        )
+        .map((digits) => digits.join('')),
+    ),
+  ].map(Number);
 }
-
-function sum(nums: number[]): number {
-  return nums.reduce((total, num) => total + num, 0);
-}
-
-/**
- * No nice things for me
- */
-
-// return (function generate(
-//   nums: NonEmpty<number>,
-//   end: number,
-// ): NonEmpty<number> {
-//   const last = nums.at(-1)!;
-//   if (last < end) {
-//     nums.push(last + 1);
-//   } else {
-//     return nums;
-//   }
-//   return generate(nums, end);
-// })([start], end);
