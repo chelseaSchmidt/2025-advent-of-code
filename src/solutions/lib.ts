@@ -1,5 +1,20 @@
+import { Range } from './types';
+
 export function sum(nums: number[]): number {
   return nums.reduce((total, num) => total + num, 0);
+}
+
+export function enumerateRange([start, end]: Range): number[] {
+  const nums = [start];
+  let last = nums.at(-1);
+
+  while (last !== undefined && last < end) {
+    const next = last + 1;
+    nums.push(next);
+    last = next;
+  }
+
+  return nums;
 }
 
 export function findIndices<T>(

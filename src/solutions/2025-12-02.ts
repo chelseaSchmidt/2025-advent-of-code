@@ -1,8 +1,8 @@
 import fs from 'fs';
-import { chunk, findIndices, sum } from './lib';
+import { chunk, enumerateRange, findIndices, sum } from './lib';
+import { Range } from './types';
 
 type Sum = number;
-type Range = [number, number];
 
 export function day02(inputPath: string): [Sum, Sum] {
   const input = parse(inputPath);
@@ -25,28 +25,15 @@ function parse(filePath: string): Range[] {
 function solvePart1(ranges: Range[]): Sum {
   return sum(
     ranges
-      .map(expandRange)
+      .map(enumerateRange)
       .flatMap((r) => detectRepeatedSequences(r, { max: 1 })),
   );
 }
 
 function solvePart2(ranges: Range[]): Sum {
   return sum(
-    ranges.map(expandRange).flatMap((r) => detectRepeatedSequences(r)),
+    ranges.map(enumerateRange).flatMap((r) => detectRepeatedSequences(r)),
   );
-}
-
-function expandRange([start, end]: Range): number[] {
-  const nums = [start];
-  let last = nums.at(-1);
-
-  while (last !== undefined && last < end) {
-    const next = last + 1;
-    nums.push(next);
-    last = next;
-  }
-
-  return nums;
 }
 
 function detectRepeatedSequences(
