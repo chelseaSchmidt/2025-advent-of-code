@@ -24,22 +24,15 @@ function parse(filePath: string): Range[] {
 
 function solvePart1(ranges: Range[]): Sum {
   return sum(
-    ranges
-      .map(enumerateRange)
-      .flatMap((r) => detectRepeatedSequences(r, { max: 1 })),
+    ranges.map(enumerateRange).flatMap((r) => detectRepeats(r, { max: 1 })),
   );
 }
 
 function solvePart2(ranges: Range[]): Sum {
-  return sum(
-    ranges.map(enumerateRange).flatMap((r) => detectRepeatedSequences(r)),
-  );
+  return sum(ranges.map(enumerateRange).flatMap((r) => detectRepeats(r)));
 }
 
-function detectRepeatedSequences(
-  ids: number[],
-  { max = Infinity } = {},
-): number[] {
+function detectRepeats(ids: number[], { max = Infinity } = {}): number[] {
   return [
     ...new Set(
       ids
