@@ -44,3 +44,11 @@ export function chunk<T>(arr: T[], size: number): T[][] {
 
   return result;
 }
+
+export function toChars(str: string): string[] {
+  return str.split('');
+}
+
+export function joinChars(chars: string[]): string {
+  return chars.join('');
+}

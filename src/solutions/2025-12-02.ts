@@ -1,5 +1,12 @@
 import fs from 'fs';
-import { chunk, enumerateRange, findIndices, sum } from './lib';
+import {
+  chunk,
+  enumerateRange,
+  findIndices,
+  joinChars,
+  sum,
+  toChars,
+} from './lib';
 import { Range } from './types';
 
 type Sum = number;
@@ -37,19 +44,19 @@ function detectRepeats(ids: number[], { max = Infinity } = {}): number[] {
     ...new Set(
       ids
         .map(String)
-        .map((id) => id.split(''))
+        .map(toChars)
         .filter((digits) =>
           findIndices(digits, digits[0], 1).some((i) => {
-            const sequence = digits.slice(0, i).join('');
-            const chunks = chunk(digits, sequence.length).map((ch) =>
-              ch.join(''),
-            );
+            const seq = joinChars(digits.slice(0, i));
+            const chunks = chunk(digits.slice(seq.length), seq.length);
             return (
-              chunks.length - 1 <= max && chunks.every((ch) => ch === sequence)
+              chunks.length <= max &&
+              chunks.every((ch) => joinChars(ch) === seq)
             );
           }),
         )
-        .map((digits) => digits.join('')),
+        .map(joinChars)
+        .map(Number),
     ),
-  ].map(Number);
+  ];
 }
