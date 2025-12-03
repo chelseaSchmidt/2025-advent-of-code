@@ -7,7 +7,7 @@ main();
 export default function main() {
   console.log(
     day01(dayToInput(1)), // [1018, 5815]
-    day02(dayToInput(2)), // [16793817782, ]
+    day02(dayToInput(2)), // [16793817782, 27469417404]
   );
 }
 

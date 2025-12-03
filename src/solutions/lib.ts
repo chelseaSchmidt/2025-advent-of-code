@@ -12,3 +12,20 @@ export function findIndices<T>(
     return accum;
   }, []);
 }
+
+export function chunk<T>(arr: T[], size: number): T[][] {
+  const copy = arr.slice();
+  const result: T[][] = [];
+  let currentChunk: T[] = [];
+
+  while (copy.length) {
+    currentChunk.push(copy.pop()!);
+
+    if (currentChunk.length === size || !copy.length) {
+      result.push(currentChunk.slice().reverse());
+      currentChunk = [];
+    }
+  }
+
+  return result;
+}

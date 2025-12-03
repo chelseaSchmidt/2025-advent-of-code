@@ -1,16 +1,12 @@
 import fs from 'fs';
-import { findIndices, sum } from './lib';
+import { chunk, findIndices, sum } from './lib';
 
 type Sum = number;
 type Range = [number, number];
 
-export function day02(inputPath: string): [Sum /*, Sum*/] {
+export function day02(inputPath: string): [Sum, Sum] {
   const input = parse(inputPath);
-
-  return [
-    solvePart1(input),
-    // solvePart2(input),
-  ];
+  return [solvePart1(input), solvePart2(input)];
 }
 
 function parse(filePath: string): Range[] {
@@ -27,7 +23,17 @@ function parse(filePath: string): Range[] {
 }
 
 function solvePart1(ranges: Range[]): Sum {
-  return sum(ranges.map(expandRange).flatMap(detectSingleRepeatedSequence));
+  return sum(
+    ranges
+      .map(expandRange)
+      .flatMap((r) => detectRepeatedSequences(r, { max: 1 })),
+  );
+}
+
+function solvePart2(ranges: Range[]): Sum {
+  return sum(
+    ranges.map(expandRange).flatMap((r) => detectRepeatedSequences(r)),
+  );
 }
 
 function expandRange([start, end]: Range): number[] {
@@ -43,16 +49,25 @@ function expandRange([start, end]: Range): number[] {
   return nums;
 }
 
-function detectSingleRepeatedSequence(ids: number[]): number[] {
+function detectRepeatedSequences(
+  ids: number[],
+  { max = Infinity } = {},
+): number[] {
   return [
     ...new Set(
       ids
         .map(String)
         .map((id) => id.split(''))
         .filter((digits) =>
-          findIndices(digits, digits[0], 1).some(
-            (i) => digits.slice(0, i).join('') === digits.slice(i).join(''),
-          ),
+          findIndices(digits, digits[0], 1).some((i) => {
+            const sequence = digits.slice(0, i).join('');
+            const chunks = chunk(digits, sequence.length).map((ch) =>
+              ch.join(''),
+            );
+            return (
+              chunks.length - 1 <= max && chunks.every((ch) => ch === sequence)
+            );
+          }),
         )
         .map((digits) => digits.join('')),
     ),
