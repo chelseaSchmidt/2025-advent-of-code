@@ -1,6 +1,6 @@
 import fs from 'fs';
+import { NonEmpty } from './types';
 
-type NonEmpty<T> = [T, ...T[]];
 type Direction = 'R' | 'L';
 type Rotation = [Direction, number];
 type Position = number;
