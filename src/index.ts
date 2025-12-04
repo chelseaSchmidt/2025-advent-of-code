@@ -9,7 +9,7 @@ export default function main() {
   console.log(
     day01(dayToInput(1)), // [1018, 5815]
     day02(dayToInput(2)), // [16793817782, 27469417404]
-    day03(dayToInput(3)), // [17311, ]
+    day03(dayToInput(3)), // [17311, 171419245422055]
   );
 }
 
