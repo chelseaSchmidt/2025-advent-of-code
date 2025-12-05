@@ -11,7 +11,7 @@ export default function main() {
     day01(dayToInput(1)), // [1018, 5815]
     day02(dayToInput(2)), // [16793817782, 27469417404]
     day03(dayToInput(3)), // [17311, 171419245422055]
-    day04(dayToInput(4)), // [1527, ]
+    day04(dayToInput(4)), // [1527, 8690]
   );
 }
 

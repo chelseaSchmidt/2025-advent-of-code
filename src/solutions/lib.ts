@@ -4,6 +4,10 @@ export function sum(nums: number[]): number {
   return nums.reduce((total, num) => total + num, 0);
 }
 
+export function count<T>(arr: T[]): number {
+  return sum(arr.map((value) => (value ? 1 : 0)));
+}
+
 export function enumerateRange([start, end]: Range): number[] {
   const nums = [start];
   let last = nums.at(-1);
